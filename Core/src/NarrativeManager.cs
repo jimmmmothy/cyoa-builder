@@ -2,7 +2,7 @@ using cyoa_core.src.exceptions;
 
 namespace cyoa_core.src
 {
-    class NarrativeManager
+    public class NarrativeManager
     {
         private NarrativeManager(StoryState ss, StoryDefinition sd, Node current)
         {
@@ -20,6 +20,7 @@ namespace cyoa_core.src
             var storyState = new StoryState();
             var manager = new NarrativeManager(storyState, storyDefinition, storyDefinition.Start);
             manager.RecordInitialCheckpoint();
+            storyState.History.Push(storyDefinition.Start);
             return manager;
         }
 
@@ -55,7 +56,7 @@ namespace cyoa_core.src
             if (!b.Choices.Contains(choice))
                 throw new ArgumentException("This Choice does not come from this Branch");
 
-            if (choice.Gate != null && !choice.Gate.IsMet(StoryState))
+            if (choice.Gate != null && !CheckCondition(choice.Gate))
             {
                 throw new ConditionNotMetException();
             }
@@ -68,7 +69,7 @@ namespace cyoa_core.src
 
         private void RecordInitialCheckpoint()
         {
-            StoryState.Checkpoints.Add((Chapter)StoryDefinition.Chapters.OrderBy(c => c.Order), new ChapterCheckpoint(StoryDefinition.Start, [.. StoryState.Variables.Values]));
+            StoryState.Checkpoints.Add(StoryDefinition.Chapters.OrderBy(c => c.Order).First(), new ChapterCheckpoint(StoryDefinition.Start, [.. StoryState.Variables.Values]));
         }
 
         private void OnNext(Node previous)

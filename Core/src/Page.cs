@@ -1,6 +1,6 @@
 namespace cyoa_core.src
 {
-    class Page : Node, IHaveEffects
+    public class Page : Node, IHaveEffects
     {
         public Page(string content)
         {

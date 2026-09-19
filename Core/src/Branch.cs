@@ -1,6 +1,6 @@
 namespace cyoa_core.src
 {
-    class Branch: Node
+    public class Branch: Node
     {
         public List<Choice> Choices { get; set; } = [];
     }

@@ -4,13 +4,13 @@ namespace cyoa_core.src
 {
     // Numeric conditions are met when following the order ACTUAL->COMPARATOR->EXPECTED
     // For example: Actual is greater than Expected
-    class NumericCondition : Condition
+    public class NumericCondition : Condition
     {
         public Comparator Op { get; set; }
         public double Expected { get; set; }
         public override bool IsMet(StoryState ss)
         {
-            var variable = ss.Variables[Target.Name] ?? throw new ArgumentNullException();
+            var variable = ss.Variables[Target.Guid] ?? throw new ArgumentNullException();
 
             if (variable is NumericVariable numVar)
             {

@@ -1,7 +1,8 @@
 namespace cyoa_core.src
 {
-    class Chapter
+    public class Chapter
     {
+        public Guid Guid { get; } = Guid.NewGuid();
         public required string Title { get; set; }
         public uint Order { get; set; }
         public List<Node> Nodes { get; set; } = [];

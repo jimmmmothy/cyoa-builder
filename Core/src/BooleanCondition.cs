@@ -2,13 +2,13 @@ using cyoa_core.src.exceptions;
 
 namespace cyoa_core.src
 {
-    class BooleanCondition : Condition
+    public class BooleanCondition : Condition
     {
         public bool Expected { get; set; }
 
         public override bool IsMet(StoryState ss)
         {
-            var variable = ss.Variables[Target.Name] ?? throw new ArgumentNullException();
+            var variable = ss.Variables[Target.Guid] ?? throw new ArgumentNullException();
 
             if (variable is BooleanVariable boolVar)
             {

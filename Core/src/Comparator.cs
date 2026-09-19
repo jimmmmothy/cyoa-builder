@@ -1,6 +1,6 @@
 namespace cyoa_core.src
 {
-    enum Comparator
+    public enum Comparator
     {
         EQUALS,
         GREATER_THAN,

@@ -1,6 +1,6 @@
 namespace cyoa_core.src
 {
-    class BooleanVariable : Variable
+    public class BooleanVariable : Variable
     {
         public bool Value { get; set; }
 

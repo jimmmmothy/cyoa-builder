@@ -1,6 +1,6 @@
 namespace cyoa_core.src
 {
-    class NumericVariable : Variable
+    public class NumericVariable : Variable
     {
         public double Value { get; set; }
 

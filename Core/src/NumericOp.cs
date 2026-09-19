@@ -1,6 +1,6 @@
 namespace cyoa_core.src
 {
-    enum NumericOp
+    public enum NumericOp
     {
         SET,
         ADD,

@@ -1,6 +1,6 @@
 namespace cyoa_core.src
 {
-    enum BooleanOp
+    public enum BooleanOp
     {
         SET,
         TOGGLE

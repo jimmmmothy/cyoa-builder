@@ -1,18 +1,21 @@
 namespace cyoa_core.src
 {
-    class StoryDefinition
+    public class StoryDefinition
     {
         public StoryDefinition(Node start, List<Chapter> chapters)
         {
             Start = start;
             Chapters = chapters;
+            VariableDeclarations = [];
             NodeToChapter = PopulateNTC();
             NodeToChapter[Start].EntryNodes.Add(Start);
+            TagEntryNodes();
         }
 
         public Node Start { get; set; }
         public List<Chapter> Chapters { get; set; }
         public Dictionary<Node, Chapter> NodeToChapter { get; set; }
+        public List<Variable> VariableDeclarations { get; set; }
 
         private Dictionary<Node, Chapter> PopulateNTC()
         {
@@ -23,46 +26,50 @@ namespace cyoa_core.src
                 foreach (var node in chapter.Nodes)
                 {
                     ntc[node] = chapter;
-                    // Since I'm already looping through all the nodes
-                    TagEntryNode(node);
                 }
             }
 
             return ntc;
         }
 
-        public void TagEntryNode(Node node)
+        // Unfortunately I couldn't tag entry nodes during the same loop that 
+        // populates NTC since node.Next will almost always be a node which hasn't 
+        // been added to NTC yet, so I can't index it 
+        private void TagEntryNodes()
         {
-            if (node is Page p)
+            foreach (var node in NodeToChapter.Keys)
             {
-                if (p.Next != null && NodeToChapter[p.Next] != NodeToChapter[p])
+                if (node is Page p)
                 {
-                    NodeToChapter[p.Next].EntryNodes.Add(p.Next);
-                }
-            }
-            else if (node is Branch b)
-            {
-                foreach (var choice in b.Choices)
-                {
-                    if (NodeToChapter[choice.Next] != NodeToChapter[b])
+                    if (p.Next != null && NodeToChapter[p.Next] != NodeToChapter[p])
                     {
-                        NodeToChapter[choice.Next].EntryNodes.Add(choice.Next);
+                        NodeToChapter[p.Next].EntryNodes.Add(p.Next);
                     }
                 }
-            }
-            else if (node is ConditionalBranch c)
-            {
-                foreach (var cr in c.Routes)
+                else if (node is Branch b)
                 {
-                    if (NodeToChapter[cr.Then] != NodeToChapter[c])
+                    foreach (var choice in b.Choices)
                     {
-                        NodeToChapter[cr.Then].EntryNodes.Add(cr.Then);
+                        if (NodeToChapter[choice.Next] != NodeToChapter[b])
+                        {
+                            NodeToChapter[choice.Next].EntryNodes.Add(choice.Next);
+                        }
                     }
                 }
+                else if (node is ConditionalBranch c)
+                {
+                    foreach (var cr in c.Routes)
+                    {
+                        if (NodeToChapter[cr.Then] != NodeToChapter[c])
+                        {
+                            NodeToChapter[cr.Then].EntryNodes.Add(cr.Then);
+                        }
+                    }
 
-                if (NodeToChapter[c.Default] != NodeToChapter[c])
-                {
-                    NodeToChapter[c.Default].EntryNodes.Add(c.Default);
+                    if (NodeToChapter[c.Default] != NodeToChapter[c])
+                    {
+                        NodeToChapter[c.Default].EntryNodes.Add(c.Default);
+                    }
                 }
             }
         }
