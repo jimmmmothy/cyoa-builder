@@ -1,6 +1,6 @@
-using cyoa_core.src;
+using Core.src;
 
-namespace cyoa_core_tests;
+namespace Core_Tests;
 
 public class ConditionCheckingTests
 {
@@ -18,8 +18,8 @@ public class ConditionCheckingTests
         var condition1 = new BooleanCondition { Target = target, Expected = true };
         var condition2 = new BooleanCondition { Target = target, Expected = false };
 
-        bool isMet1 = condition1.IsMet(ss);
-        bool isMet2 = condition2.IsMet(ss);
+        bool isMet1 = condition1.IsMet(ss.Variables);
+        bool isMet2 = condition2.IsMet(ss.Variables);
 
         Assert.True(isMet1);
         Assert.False(isMet2);
@@ -41,29 +41,29 @@ public class ConditionCheckingTests
         switch (comparator)
         {
             case Comparator.EQUALS:
-                Assert.Equal(expected1, condition1.IsMet(ss));
-                Assert.Equal(expected2, condition2.IsMet(ss));
-                Assert.Equal(expected3, condition3.IsMet(ss));
+                Assert.Equal(expected1, condition1.IsMet(ss.Variables));
+                Assert.Equal(expected2, condition2.IsMet(ss.Variables));
+                Assert.Equal(expected3, condition3.IsMet(ss.Variables));
                 break;
             case Comparator.GREATER_THAN:
-                Assert.Equal(expected1, condition1.IsMet(ss));
-                Assert.Equal(expected2, condition2.IsMet(ss));
-                Assert.Equal(expected3, condition3.IsMet(ss));
+                Assert.Equal(expected1, condition1.IsMet(ss.Variables));
+                Assert.Equal(expected2, condition2.IsMet(ss.Variables));
+                Assert.Equal(expected3, condition3.IsMet(ss.Variables));
                 break;
             case Comparator.LESS_THAN:
-                Assert.Equal(expected1, condition1.IsMet(ss));
-                Assert.Equal(expected2, condition2.IsMet(ss));
-                Assert.Equal(expected3, condition3.IsMet(ss));
+                Assert.Equal(expected1, condition1.IsMet(ss.Variables));
+                Assert.Equal(expected2, condition2.IsMet(ss.Variables));
+                Assert.Equal(expected3, condition3.IsMet(ss.Variables));
                 break;
             case Comparator.GREATER_OR_EQUAL:
-                Assert.Equal(expected1, condition1.IsMet(ss));
-                Assert.Equal(expected2, condition2.IsMet(ss));
-                Assert.Equal(expected3, condition3.IsMet(ss));
+                Assert.Equal(expected1, condition1.IsMet(ss.Variables));
+                Assert.Equal(expected2, condition2.IsMet(ss.Variables));
+                Assert.Equal(expected3, condition3.IsMet(ss.Variables));
                 break;
             case Comparator.LESS_OR_EQUAL:
-                Assert.Equal(expected1, condition1.IsMet(ss));
-                Assert.Equal(expected2, condition2.IsMet(ss));
-                Assert.Equal(expected3, condition3.IsMet(ss));
+                Assert.Equal(expected1, condition1.IsMet(ss.Variables));
+                Assert.Equal(expected2, condition2.IsMet(ss.Variables));
+                Assert.Equal(expected3, condition3.IsMet(ss.Variables));
                 break;
         }
     }

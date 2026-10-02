@@ -1,4 +1,4 @@
-namespace cyoa_core.src
+namespace Core.src
 {
     public class Choice : IHaveEffects
     {
@@ -8,10 +8,10 @@ namespace cyoa_core.src
         public required Node Next { get; set; }
         public List<Effect> Effects { get; set; } = [];
 
-        public void ApplyEffects(StoryState ss)
+        public void ApplyEffects(Dictionary<Guid, Variable> variablesByGuid)
         {
             foreach (var effect in Effects) {
-                effect.Apply(ss);
+                effect.Apply(variablesByGuid);
             }
         }
     }

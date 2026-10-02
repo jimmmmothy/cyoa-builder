@@ -1,6 +1,6 @@
-using cyoa_core.src.exceptions;
+using Core.src.exceptions;
 
-namespace cyoa_core.src
+namespace Core.src
 {
     // Numeric conditions are met when following the order ACTUAL->COMPARATOR->EXPECTED
     // For example: Actual is greater than Expected
@@ -8,9 +8,9 @@ namespace cyoa_core.src
     {
         public Comparator Op { get; set; }
         public double Expected { get; set; }
-        public override bool IsMet(StoryState ss)
+        public override bool IsMet(Dictionary<Guid, Variable> variablesByGuid)
         {
-            var variable = ss.Variables[Target.Guid] ?? throw new ArgumentNullException();
+            var variable = variablesByGuid[Target.Guid] ?? throw new ArgumentNullException();
 
             if (variable is NumericVariable numVar)
             {

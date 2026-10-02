@@ -1,8 +1,8 @@
-namespace cyoa_core.src
+namespace Core.src
 {
     public interface IHaveEffects 
     {
         List<Effect> Effects { get; }
-        public void ApplyEffects(StoryState ss);
+        public void ApplyEffects(Dictionary<Guid, Variable> variablesByGuid);
     }
 }

@@ -1,6 +1,6 @@
-using cyoa_core.src;
+using Core.src;
 
-namespace cyoa_core_tests;
+namespace Core_Tests;
 
 public class TestUtilities
 {

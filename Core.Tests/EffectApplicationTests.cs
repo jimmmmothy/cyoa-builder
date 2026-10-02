@@ -1,6 +1,6 @@
-using cyoa_core.src;
+using Core.src;
 
-namespace cyoa_core_tests;
+namespace Core_Tests;
 
 public class EffectApplicationTests
 {
@@ -22,16 +22,16 @@ public class EffectApplicationTests
         BooleanVariable testTarget2 = TestUtilities.GetVar<BooleanVariable>(ss, "Boolean 2");
         BooleanEffect effect2 = new() { Op = op, Target = testTarget2, Value = false };
 
-        effect1.Apply(ss);
-        effect2.Apply(ss);
+        effect1.Apply(ss.Variables);
+        effect2.Apply(ss.Variables);
 
         Assert.False((ss.Variables[testTarget1.Guid] as BooleanVariable)!.Value);
         Assert.False((ss.Variables[testTarget2.Guid] as BooleanVariable)!.Value);
 
         if (op == BooleanOp.TOGGLE)
         {
-            effect1.Apply(ss);
-            effect2.Apply(ss);
+            effect1.Apply(ss.Variables);
+            effect2.Apply(ss.Variables);
 
             Assert.True((ss.Variables[testTarget1.Guid] as BooleanVariable)!.Value);
             Assert.True((ss.Variables[testTarget2.Guid] as BooleanVariable)!.Value);
@@ -49,8 +49,8 @@ public class EffectApplicationTests
         BooleanVariable testTarget2 = new() { Name = "Invalid2", Value = false};
         BooleanEffect effect2 = new() { Op = op, Target = testTarget2, Value = false };
 
-        Assert.Throws<KeyNotFoundException>(() => effect1.Apply(ss));
-        Assert.Throws<KeyNotFoundException>(() => effect1.Apply(ss));
+        Assert.Throws<KeyNotFoundException>(() => effect1.Apply(ss.Variables));
+        Assert.Throws<KeyNotFoundException>(() => effect1.Apply(ss.Variables));
     }
 
     [Theory]
@@ -86,8 +86,8 @@ public class EffectApplicationTests
                     break;
             }
 
-            effect1.Apply(ss);
-            effect2.Apply(ss);
+            effect1.Apply(ss.Variables);
+            effect2.Apply(ss.Variables);
 
             Assert.Equal(expected1, testTarget1.Value);
             Assert.Equal(expected2, testTarget2.Value);
@@ -106,7 +106,7 @@ public class EffectApplicationTests
         NumericVariable testTarget2 = new() { Name = "Invalid2", Value = -1.0 / 2};
         NumericEffect effect2 = new() { Op = op, Target = testTarget2, Value = -1.0 / 2 };
 
-        Assert.Throws<KeyNotFoundException>(() => effect1.Apply(ss));
-        Assert.Throws<KeyNotFoundException>(() => effect1.Apply(ss));
+        Assert.Throws<KeyNotFoundException>(() => effect1.Apply(ss.Variables));
+        Assert.Throws<KeyNotFoundException>(() => effect1.Apply(ss.Variables));
     }
 }

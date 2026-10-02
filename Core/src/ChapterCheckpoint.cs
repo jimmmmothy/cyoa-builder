@@ -1,4 +1,4 @@
-namespace cyoa_core.src
+namespace Core.src
 {
     public class ChapterCheckpoint(Node entry, List<Variable> variables)
     {

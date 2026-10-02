@@ -1,4 +1,4 @@
-namespace cyoa_core.src
+namespace Core.src
 {
     public class StoryState
     {
@@ -7,6 +7,6 @@ namespace cyoa_core.src
         // into SS from the beginning?
         public Dictionary<Guid, Variable> Variables { get; } = [];
         public Stack<Node> History { get; } = new Stack<Node>();
-        public Dictionary<Chapter, ChapterCheckpoint> Checkpoints { get; } = [];
+        public Dictionary<Chapter, ChapterCheckpoint> CheckpointsByChapter { get; } = [];
     }
 }

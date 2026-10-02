@@ -1,0 +1,42 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:Editor"
+             x:Class="Editor.App"
+             RequestedThemeVariant="Dark">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator></local:ViewLocator>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="styles/ApplicationDefaultStyles.axaml"></StyleInclude>
+    </Application.Styles>
+
+    <Application.Resources>
+
+        <FontFamily x:Key="TitleFont">avares://Editor/assets/fonts/MontserratUnderline-Bold.ttf#Montserrat Underline</FontFamily>
+
+        <SolidColorBrush x:Key="PrimaryBackground">#17191C</SolidColorBrush>
+        <SolidColorBrush x:Key="SecondaryBackground">#2B3035</SolidColorBrush>
+        <SolidColorBrush x:Key="PrimaryForeground">#E2E2E2</SolidColorBrush>
+        <SolidColorBrush x:Key="SecondaryForeground">#828282</SolidColorBrush>
+        <SolidColorBrush x:Key="AccentColour">#D9A85C</SolidColorBrush>
+        <SolidColorBrush x:Key="TitleColour">#FFD079</SolidColorBrush>
+
+        <LinearGradientBrush x:Key="TitleGradiant" StartPoint="0%, 85%" EndPoint="0%, 100%">
+            <GradientStop Offset="0" Color="#17181A"></GradientStop>
+            <GradientStop Offset="1" Color="#0C0C0E"></GradientStop>
+        </LinearGradientBrush>
+
+        <VisualBrush x:Key="CanvasBackground" Stretch="UniformToFill" TileMode="Tile" DestinationRect="0,0,7,7">
+            <VisualBrush.Visual>
+                <Border Padding="2" Background="#1E1E1E">
+                    <Ellipse Width="5" Height="5" Fill="#242629"/>
+                </Border>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+    </Application.Resources>
+</Application>

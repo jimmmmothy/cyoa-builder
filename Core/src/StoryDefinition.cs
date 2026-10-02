@@ -1,14 +1,13 @@
-namespace cyoa_core.src
+namespace Core.src
 {
     public class StoryDefinition
     {
         public StoryDefinition(Node start, List<Chapter> chapters)
         {
             Start = start;
-            Chapters = chapters;
+            Chapters = [.. chapters.OrderBy(c => c.Order)];
             VariableDeclarations = [];
             NodeToChapter = PopulateNTC();
-            NodeToChapter[Start].EntryNodes.Add(Start);
             TagEntryNodes();
         }
 
@@ -37,6 +36,9 @@ namespace cyoa_core.src
         // been added to NTC yet, so I can't index it 
         private void TagEntryNodes()
         {
+            if (!Chapters[0].EntryNodes.Contains(Start))
+                NodeToChapter[Start].EntryNodes.Add(Start);
+
             foreach (var node in NodeToChapter.Keys)
             {
                 if (node is Page p)

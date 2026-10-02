@@ -1,7 +1,7 @@
-using cyoa_core.src;
-using cyoa_core.src.exceptions;
+using Core.src;
+using Core.src.exceptions;
 
-namespace cyoa_core_tests;
+namespace Core_Tests;
 
 public class NarrativeManagerTests
 {
@@ -23,8 +23,8 @@ public class NarrativeManagerTests
         var sd = CreateGenericStoryDefinition(start, [start], [next]);
         var nm = NarrativeManager.NewGame(sd);
 
-        Assert.Single(nm.StoryState.Checkpoints);
-        Assert.Equal(nm.StoryDefinition.Start, nm.StoryState.Checkpoints[nm.StoryDefinition.Chapters[0]].EntryNode);
+        Assert.Single(nm.StoryState.CheckpointsByChapter);
+        Assert.Equal(nm.StoryDefinition.Start, nm.StoryState.CheckpointsByChapter[nm.StoryDefinition.Chapters[0]].EntryNode);
     }
 
     [Fact]
@@ -204,7 +204,7 @@ public class NarrativeManagerTests
         var nm = NarrativeManager.NewGame(sd);
         nm.Advance();
 
-        Assert.Equal(2, nm.StoryState.Checkpoints.Count);
+        Assert.Equal(2, nm.StoryState.CheckpointsByChapter.Count);
     }
 
     [Fact]

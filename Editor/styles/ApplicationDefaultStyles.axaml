@@ -1,0 +1,83 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Canvas Width="1000" Height="1000">
+      <Border Canvas.Top="100" Canvas.Left="100" Width="200" Height="200" Classes="Node">
+        <TextBlock>blabalbalb</TextBlock>
+      </Border>
+    </Canvas>
+  </Design.PreviewWith>
+  
+  <Styles.Resources>
+    <!-- Overwriting Fluent theme styles -->
+    <StaticResource x:Key="TabItemHeaderBackgroundUnselected"             ResourceKey="PrimaryBackground"/>
+    <StaticResource x:Key="TabItemHeaderBackgroundUnselectedPointerOver"  ResourceKey="SecondaryBackground"/>
+    <StaticResource x:Key="TabItemHeaderBackgroundUnselectedPressed"      ResourceKey="SecondaryBackground"/>
+    <StaticResource x:Key="TabItemHeaderBackgroundSelected"               ResourceKey="SecondaryBackground"/>
+    <StaticResource x:Key="TabItemHeaderBackgroundSelectedPointerOver"    ResourceKey="SecondaryBackground"/>
+    <StaticResource x:Key="TabItemHeaderBackgroundSelectedPressed"        ResourceKey="SecondaryBackground"/>
+  </Styles.Resources>
+
+  <!-- BORDER NODE -->
+  <Style Selector="Border.Node">
+    <Setter Property="Background" Value="#94BD52"></Setter>
+    <Setter Property="BorderBrush" Value="#EDE2E2"></Setter>
+    <Setter Property="Padding" Value="10"></Setter>
+    <Setter Property="CornerRadius" Value="25"></Setter>
+  </Style>
+
+  <!-- TITLE -->
+  <Style Selector="TextBlock.Title">
+    <Setter Property="FontSize" Value="40"></Setter>
+    <Setter Property="FontFamily" Value="{DynamicResource TitleFont}"></Setter>
+    <Setter Property="Foreground" Value="{DynamicResource TitleColour}"></Setter>
+  </Style>
+  <Style Selector="Border.Title">
+    <Setter Property="Background" Value="{DynamicResource TitleGradiant}"></Setter>
+  </Style>
+
+  <!-- CANVAS -->
+  <Style Selector="Canvas">
+    <Setter Property="Background" Value="{DynamicResource CanvasBackground}"></Setter>
+  </Style>
+
+  <!-- TAB CONTROL -->
+  <Style Selector="TabControl">
+    <Setter Property="Background" Value="{DynamicResource PrimaryBackground}"></Setter>
+    <Setter Property="Padding" Value="0"></Setter>
+  </Style>
+
+  <Style Selector="TabItem">
+    <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}"></Setter>
+    <Setter Property="MinHeight" Value="0"></Setter>
+    <Setter Property="Margin" Value="10"></Setter>
+    <Setter Property="Padding" Value="5"></Setter>
+    <Setter Property="FontSize" Value="14"></Setter>
+    <Setter Property="CornerRadius" Value="5"/>
+    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+  </Style>
+
+  <Style Selector="TabItem:selected">
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"></Setter>
+    <Setter Property="BorderBrush" Value="{DynamicResource AccentColour}"/>
+  </Style>
+  <Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
+    <Setter Property="IsVisible" Value="False"></Setter>
+  </Style>
+
+  <!-- BUTTONS -->
+  <Style Selector="Button">
+    <Setter Property="Background" Value="{DynamicResource PrimaryBackground}"></Setter>
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
+    <Setter Property="Padding" Value="10"></Setter>
+    <Setter Property="CornerRadius" Value="0"></Setter>
+    <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+    <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBackground}"></Setter>
+  </Style>
+
+  <Style Selector="Button:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"></Setter>
+  </Style>
+</Styles>

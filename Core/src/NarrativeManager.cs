@@ -1,6 +1,6 @@
-using cyoa_core.src.exceptions;
+using Core.src.exceptions;
 
-namespace cyoa_core.src
+namespace Core.src
 {
     public class NarrativeManager
     {
@@ -25,11 +25,6 @@ namespace cyoa_core.src
         }
 
         public static NarrativeManager Resume(StoryState storyState, StoryDefinition storyDefinition, Node current) => new(storyState, storyDefinition, current);
-
-        public bool CheckCondition(Condition condition)
-        {
-            return condition.IsMet(StoryState);
-        }
 
         public void Advance()
         {
@@ -56,20 +51,20 @@ namespace cyoa_core.src
             if (!b.Choices.Contains(choice))
                 throw new ArgumentException("This Choice does not come from this Branch");
 
-            if (choice.Gate != null && !CheckCondition(choice.Gate))
+            if (choice.Gate != null && !choice.Gate.IsMet(StoryState.Variables))
             {
                 throw new ConditionNotMetException();
             }
 
             var previous = Current;
-            choice.ApplyEffects(StoryState);
+            choice.ApplyEffects(StoryState.Variables);
             Current = choice.Next;
             OnNext(previous);
         }
 
         private void RecordInitialCheckpoint()
         {
-            StoryState.Checkpoints.Add(StoryDefinition.Chapters.OrderBy(c => c.Order).First(), new ChapterCheckpoint(StoryDefinition.Start, [.. StoryState.Variables.Values]));
+            StoryState.CheckpointsByChapter.Add(StoryDefinition.Chapters.OrderBy(c => c.Order).First(), new ChapterCheckpoint(StoryDefinition.Start, [.. StoryState.Variables.Values]));
         }
 
         private void OnNext(Node previous)
@@ -88,7 +83,7 @@ namespace cyoa_core.src
             foreach (ConditionalRoute route in cb.Routes)
             {
                 // Designed to pass on the first matching condition, so order is very important
-                if (CheckCondition(route.When))
+                if (route.When.IsMet(StoryState.Variables))
                 {
                     Current = route.Then;
                     // Recursive in case the following node is also a conditional branch
@@ -108,7 +103,7 @@ namespace cyoa_core.src
             if (StoryDefinition.NodeToChapter[previous] != StoryDefinition.NodeToChapter[Current])
             {
                 // Generate a checkpoint
-                StoryState.Checkpoints[currChapter] = new ChapterCheckpoint(Current, [.. StoryState.Variables.Values]);
+                StoryState.CheckpointsByChapter[currChapter] = new ChapterCheckpoint(Current, [.. StoryState.Variables.Values]);
             }
         }
 
@@ -116,7 +111,7 @@ namespace cyoa_core.src
         {
             if (Current is Page p)
             {
-                p.ApplyEffects(StoryState);
+                p.ApplyEffects(StoryState.Variables);
             }
         }
     }

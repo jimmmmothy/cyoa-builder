@@ -1,4 +1,4 @@
-namespace cyoa_core.src.exceptions
+namespace Core.src.exceptions
 {
     public class VariableTypeMismatchException : Exception
     {

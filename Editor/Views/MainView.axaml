@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:editor="using:Editor"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="using:Editor.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900  "
+        x:Class="Editor.Views.MainView"
+        x:DataType="viewmodels:MainViewModel"
+        Title="Storio Editor">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="2"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border Classes="Title" Grid.Row="0" Padding="7.5">
+            <TextBlock Classes="Title" HorizontalAlignment="Stretch">
+                STORIO
+            </TextBlock>
+        </Border>
+
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,2, *">
+            <TabControl Grid.Column="0">
+                <TabItem Header="Components">
+                    <StackPanel>
+                        <Button HorizontalAlignment="Stretch" Command="{Binding SpawnPageNodeCommand}">Page</Button>
+                        <Button HorizontalAlignment="Stretch" Command="{Binding SpawnBranchNodeCommand}">Branch</Button>
+                        <Button HorizontalAlignment="Stretch" Command="{Binding SpawnConditionalBranchNodeCommand}">Conditional Branch</Button>
+                        <!-- <Button HorizontalAlignment="Stretch">Effect</Button> -->
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Story Definition">
+                    <TreeView>
+                        <TreeViewItem>first</TreeViewItem>
+                        <TreeViewItem>second</TreeViewItem>
+                    </TreeView>
+                </TabItem>
+            </TabControl>
+            <GridSplitter Grid.Column="1"></GridSplitter>
+            <ItemsControl Grid.Column="2" ItemsSource="{Binding Nodes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas></Canvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.Styles>
+                    <Style Selector="ContentPresenter" x:DataType="viewmodels:NodeViewModelBase">
+                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                    </Style>
+                </ItemsControl.Styles>
+                <ItemsControl.ItemTemplate>
+                    <editor:ViewLocator></editor:ViewLocator>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+        <GridSplitter Grid.Row="2"></GridSplitter>
+
+        <Border Grid.Row="3" Background="{DynamicResource PrimaryBackground}" Opacity="1">
+            <Label>Properties</Label>
+        </Border>
+    </Grid>
+</Window>
