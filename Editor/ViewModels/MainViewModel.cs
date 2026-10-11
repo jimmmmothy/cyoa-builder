@@ -6,17 +6,17 @@ namespace Editor.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    private int _x;
-    private int _y;
+    private double _x;
+    private double _y;
 
     public MainViewModel()
     {
-        _x = 10;
-        _y = 10;
+        _x = 10.0;
+        _y = 10.0;
     }
 
-    [ObservableProperty]
-    public partial ObservableCollection<NodeViewModelBase> Nodes { get; set; } = [];
+    [ObservableProperty] public partial ObservableCollection<NodeViewModelBase> Nodes { get; set; } = [];
+    [ObservableProperty] public partial ObservableCollection<ConnectionViewModel> Connections { get; set; } = [];
 
     private void SetNextCoords()
     {

@@ -2,6 +2,10 @@ using Editor.ViewModels;
 
 namespace Editor.ViewModels;
 
-public partial class ConditionalBranchNodeViewModel(int x, int y) : NodeViewModelBase(x, y)
+public partial class ConditionalBranchNodeViewModel : NodeViewModelBase
 {
+    public ConditionalBranchNodeViewModel(double x, double y) : base(x, y)
+    {
+        Title = "Conditional Branch";        
+    }
 }

@@ -17,8 +17,8 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Border Classes="Title" Grid.Row="0" Padding="7.5">
-            <TextBlock Classes="Title" HorizontalAlignment="Stretch">
+        <Border Classes="title" Grid.Row="0" Padding="7.5">
+            <TextBlock Classes="title" HorizontalAlignment="Stretch">
                 STORIO
             </TextBlock>
         </Border>
@@ -30,7 +30,6 @@
                         <Button HorizontalAlignment="Stretch" Command="{Binding SpawnPageNodeCommand}">Page</Button>
                         <Button HorizontalAlignment="Stretch" Command="{Binding SpawnBranchNodeCommand}">Branch</Button>
                         <Button HorizontalAlignment="Stretch" Command="{Binding SpawnConditionalBranchNodeCommand}">Conditional Branch</Button>
-                        <!-- <Button HorizontalAlignment="Stretch">Effect</Button> -->
                     </StackPanel>
                 </TabItem>
                 <TabItem Header="Story Definition">
@@ -41,7 +40,9 @@
                 </TabItem>
             </TabControl>
             <GridSplitter Grid.Column="1"></GridSplitter>
-            <ItemsControl Grid.Column="2" ItemsSource="{Binding Nodes}">
+
+            <!-- Canvas of nodes -->
+            <ItemsControl Grid.Column="2" ZIndex="1" ItemsSource="{Binding Nodes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas></Canvas>
@@ -57,6 +58,25 @@
                     <editor:ViewLocator></editor:ViewLocator>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+
+            <!-- Canvas of connections -->
+            <ItemsControl Grid.Column="2" ItemsSource="{Binding Connections}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas></Canvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.Styles>
+                    <Style Selector="ContentPresenter" x:DataType="viewmodels:ConnectionViewModel">
+                        <Setter Property="Canvas.Left" Value="{Binding StartPoint.X}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding StartPoint.Y}"/>
+                    </Style>
+                </ItemsControl.Styles>
+                <ItemsControl.ItemTemplate>
+                    <editor:ViewLocator></editor:ViewLocator>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
         </Grid>
 
         <GridSplitter Grid.Row="2"></GridSplitter>

@@ -1,11 +1,17 @@
 using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Editor.Models;
 
 namespace Editor.ViewModels;
 
-public partial class BranchNodeViewModel(int x, int y) : NodeViewModelBase(x, y)
+public partial class BranchNodeViewModel : NodeViewModelBase
 {
-    // [ObservableProperty]
-    // public partial ObservableCollection<Choice> Choices { get; set; } = [];
+    public BranchNodeViewModel(double x, double y) : base(x, y)
+    {
+        Title = "Branch";
+    }
+
+    [ObservableProperty]
+    public partial ObservableCollection<Choice> Choices { get; set; } = [];
 }

@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace Editor.Views;
 
-public partial class BranchNodeView : UserControl
+public partial class BranchNodeView : NodeViewBase
 {
     public BranchNodeView()
     {

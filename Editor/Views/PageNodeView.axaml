@@ -2,11 +2,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="using:Editor.Views"
              xmlns:viewmodels="using:Editor.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Editor.Views.PageNodeView"
-             x:DataType="viewmodels:PageNodeViewModel">
-  <Border Classes="Node">
-    <TextBlock Text="{Binding Content}"></TextBlock>
-  </Border>
+             x:DataType="viewmodels:PageNodeViewModel"
+             ClipToBounds="False">
+  <Panel Classes="node">
+    <views:PortView Direction="Incoming" Classes="incoming"></views:PortView>
+    <views:PortView Direction="Outgoing" Classes="outgoing"></views:PortView>
+    <Border Width="{Binding Width}" Height="{Binding Height}">
+      <TextBlock Text="{Binding Title}"></TextBlock>
+    </Border>
+  </Panel>
 </UserControl>
