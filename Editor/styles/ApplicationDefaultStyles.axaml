@@ -4,8 +4,8 @@
   <Design.PreviewWith>
     <Canvas Width="1000" Height="1000">
       <Panel Classes="node" Canvas.Left="200" Canvas.Top="100">
-        <views:PortView Classes="left"></views:PortView>
-        <views:PortView Classes="right"></views:PortView>
+        <views:PortView Classes="incoming"></views:PortView>
+        <views:PortView Classes="outgoing"></views:PortView>
         <Border Width="100" Height="100">
           <TextBlock Text="Page"></TextBlock>
         </Border>
@@ -70,11 +70,17 @@
     <Setter Property="Background" Value="{DynamicResource TitleGradiant}"></Setter>
   </Style>
 
-  <!-- CANVAS -->
-  <Style Selector="Canvas">
-    <Setter Property="Background" Value="{DynamicResource CanvasBackground}"></Setter>
+  <!-- WORKSPACE -->
+  <Style Selector="Panel.workspace">
+    <Setter Property="Background" Value="{DynamicResource WorkspaceBackground}"></Setter>
   </Style>
 
+  <!-- CANVAS -->
+  <Style Selector="Canvas.bg-transparent">
+    <Setter Property="Background" Value="Transparent"></Setter>
+  </Style>
+  <Style Selector="Canvas.bg-none">
+  </Style>
   <!-- TAB CONTROL -->
   <Style Selector="TabControl">
     <Setter Property="Background" Value="{DynamicResource PrimaryBackground}"></Setter>

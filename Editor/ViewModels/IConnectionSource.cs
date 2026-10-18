@@ -6,6 +6,4 @@ namespace Editor.ViewModels;
 public partial interface IConnectionSource : INotifyPropertyChanged
 {
     Point Outgoing { get; }
-
-    public void HandleSourceClick();
 }

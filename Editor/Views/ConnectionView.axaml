@@ -2,7 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Editor.Views.ConnectionView">
-  Connection
+             xmlns:viewmodels="using:Editor.ViewModels"
+             x:Class="Editor.Views.ConnectionView"
+             x:DataType="viewmodels:ConnectionViewModel">
+  
+  
+  <Path Stroke="Orange" StrokeThickness="2">
+    <Path.Data>
+        <PathGeometry>
+            <PathFigure StartPoint="{Binding StartPoint}" IsClosed="False">
+                <BezierSegment Point1="{Binding FirstMidpoint}" Point2="{Binding SecondMidpoint}" Point3="{Binding EndPoint}" />
+            </PathFigure>
+        </PathGeometry>
+    </Path.Data>
+  </Path>
 </UserControl>

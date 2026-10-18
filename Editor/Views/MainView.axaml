@@ -42,40 +42,36 @@
             <GridSplitter Grid.Column="1"></GridSplitter>
 
             <!-- Canvas of nodes -->
-            <ItemsControl Grid.Column="2" ZIndex="1" ItemsSource="{Binding Nodes}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas></Canvas>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.Styles>
-                    <Style Selector="ContentPresenter" x:DataType="viewmodels:NodeViewModelBase">
-                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
-                    </Style>
-                </ItemsControl.Styles>
-                <ItemsControl.ItemTemplate>
-                    <editor:ViewLocator></editor:ViewLocator>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <Panel Name="Workspace" Grid.Column="2" Classes="workspace">
+                <ItemsControl ZIndex="1" ItemsSource="{Binding Nodes}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Classes="bg-none"></Canvas>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.Styles>
+                        <Style Selector="ContentPresenter" x:DataType="viewmodels:NodeViewModelBase">
+                            <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                        </Style>
+                    </ItemsControl.Styles>
+                    <ItemsControl.ItemTemplate>
+                        <editor:ViewLocator></editor:ViewLocator>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-            <!-- Canvas of connections -->
-            <ItemsControl Grid.Column="2" ItemsSource="{Binding Connections}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas></Canvas>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.Styles>
-                    <Style Selector="ContentPresenter" x:DataType="viewmodels:ConnectionViewModel">
-                        <Setter Property="Canvas.Left" Value="{Binding StartPoint.X}"/>
-                        <Setter Property="Canvas.Top" Value="{Binding StartPoint.Y}"/>
-                    </Style>
-                </ItemsControl.Styles>
-                <ItemsControl.ItemTemplate>
-                    <editor:ViewLocator></editor:ViewLocator>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                <!-- Canvas of connections -->
+                <ItemsControl ItemsSource="{Binding Connections}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Classes="bg-none"></Canvas>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <editor:ViewLocator></editor:ViewLocator>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Panel>
             
         </Grid>
 

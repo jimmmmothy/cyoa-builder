@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -17,6 +18,7 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty] public partial ObservableCollection<NodeViewModelBase> Nodes { get; set; } = [];
     [ObservableProperty] public partial ObservableCollection<ConnectionViewModel> Connections { get; set; } = [];
+    [ObservableProperty] public partial ConnectionViewModel? SelectedConnection { get; private set; }
 
     private void SetNextCoords()
     {
@@ -49,5 +51,41 @@ public partial class MainViewModel : ViewModelBase
     {
         Nodes.Add(new ConditionalBranchNodeViewModel(_x, _y));
         SetNextCoords();
+    }
+
+    public void AddConnection(IConnectionSource start, Point end)
+    {
+        SelectedConnection = new ConnectionViewModel
+        {
+            From = start,
+            EndPoint = end
+        };
+        Connections.Add(SelectedConnection);
+    }
+
+    public void AddConnection(Point start, IConnectionTarget end)
+    {
+        SelectedConnection = new ConnectionViewModel
+        {
+            StartPoint = start,
+            To = end
+        };
+        Connections.Add(SelectedConnection);
+    }
+
+    public void AddConnection(Point start, Point end)
+    {
+        SelectedConnection = new ConnectionViewModel
+        {
+            StartPoint = start,
+            EndPoint = end
+        };
+        Connections.Add(SelectedConnection);
+    }
+
+    public void RemovePendingConnection()
+    {
+        if (SelectedConnection is not null)
+            Connections.Remove(SelectedConnection);
     }
 }

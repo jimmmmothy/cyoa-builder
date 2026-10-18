@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using Editor.ViewModels;
@@ -23,44 +24,7 @@ public partial class NodeViewBase : UserControl
 
     private void Node_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        Classes.Add("selected");
-
-        if (e.Source is not Ellipse ellipse)
-        {
-            HandleNodeDrag(e, PointerFunctionStage.Pressed);
-            return;
-        }
-
-        var port = ellipse.FindAncestorOfType<PortView>();
-
-        if (port == null)
-        {
-            Console.WriteLine("Could not find a port");
-            return;
-        }
-
-        switch (port.Direction)
-        {
-            case PortDirection.Incoming:
-                {
-                    if (DataContext is IConnectionTarget vm)
-                    {
-                        vm.HandleTargetClick();
-                    }
-                }
-                break;
-            case PortDirection.Outgoing:
-                {
-                    if (DataContext is IConnectionSource vm)
-                    {
-                        vm.HandleSourceClick();
-                    }
-                }
-                break;
-            default:
-                Console.WriteLine("Somehow Palpatine has returned...");
-                break;
-        }
+        HandleNodeDrag(e, PointerFunctionStage.Pressed);
     }
 
     private void Node_PointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -70,9 +34,6 @@ public partial class NodeViewBase : UserControl
 
     private void Node_PointerMoved(object? sender, PointerEventArgs e)
     {
-        if (e.Pointer.Captured != this)
-            return;
-
         HandleNodeDrag(e, PointerFunctionStage.Moved);
     }
 
@@ -81,10 +42,13 @@ public partial class NodeViewBase : UserControl
         switch (stage)
         {
             case PointerFunctionStage.Pressed:
+                Classes.Add("selected");
                 e.Pointer.Capture(this);
                 previous = e.GetPosition(this.GetVisualParent());
                 break;
             case PointerFunctionStage.Moved:
+                if (e.Pointer.Captured != this)
+                    return;
                 var dx = e.GetPosition(this.GetVisualParent()).X - previous.X;
                 var dy = e.GetPosition(this.GetVisualParent()).Y - previous.Y;
 

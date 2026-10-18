@@ -16,16 +16,6 @@ public partial class PageNodeViewModel : NodeViewModelBase, IConnectionTarget, I
     public Point Outgoing => new(X + Width, Y + Height / 2.0);
     [ObservableProperty] public partial string Content { get; set; }
 
-    public void HandleTargetClick() // Incoming
-    {
-        System.Console.WriteLine("Clicked Incoming!!!");
-    }
-
-    public void HandleSourceClick() // Outgoing
-    {
-        System.Console.WriteLine("Clicked Outgoing!!!");
-    }
-
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
