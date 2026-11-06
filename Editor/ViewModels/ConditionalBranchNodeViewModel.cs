@@ -1,24 +1,24 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Avalonia;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Editor.ViewModels;
 
 namespace Editor.ViewModels;
 
-public partial class ConditionalBranchNodeViewModel : NodeViewModelBase, IConnectionTarget
+public partial class ConditionalBranchNodeViewModel : NodeViewModelBase, IConnectionTarget, IConnectionSource
 {
     public ConditionalBranchNodeViewModel(double x, double y) : base(x, y)
     {
-        Title = "Conditional Branch";        
+        Title = "Conditional Branch";      
+        Routes.Add(new RouteViewModel());  
+        Routes.Add(new RouteViewModel());  
     }
 
-    public Point Incoming => new(X, Y + Height / 2.0);
+    [ObservableProperty]
+    public partial ObservableCollection<RouteViewModel> Routes { get; set; } = [];
 
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-        base.OnPropertyChanged(e);
-        if (e.PropertyName is nameof(X) or nameof(Y) or nameof(Width) or nameof(Height))
-        {
-            OnPropertyChanged(nameof(Incoming));   
-        }
-    }
+    [ObservableProperty] public partial Point Incoming { get; set; }
+
+    [ObservableProperty] public partial Point Outgoing { get; set; }
 }

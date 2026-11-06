@@ -10,9 +10,28 @@
              ClipToBounds="False">
 
   <Panel Classes="node">
-    <views:PortView Direction="Incoming" Classes="incoming"></views:PortView>
-    <Border Width="{Binding Width}" Height="{Binding Height}">
-      <TextBlock Text="{Binding Title}"></TextBlock>
+    <views:PortView Direction="Incoming" Anchor="{Binding Incoming, Mode=OneWayToSource}" Classes="incoming"></views:PortView>
+    <Border Classes="node-body" Width="{Binding Width}" MinHeight="{Binding Height}" Padding="0,10">
+      <Grid RowDefinitions="1*, 1*, Auto, 1*">
+        <TextBlock Grid.Row="0" Text="{Binding Title}" Margin="10"></TextBlock>
+        <TextBlock Grid.Row="1"></TextBlock>
+        <ItemsControl Grid.Row="2" Padding="0" ClipToBounds="False" ItemsSource="{Binding Routes}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Spacing="5"></StackPanel>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <views:RouteView></views:RouteView>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Panel Grid.Row="3" Margin="0, 5, 0, 0">
+          <Label Content="Default" Padding="10,0"></Label>
+          <views:PortView x:Name="Port" Anchor="{Binding Outgoing, Mode=OneWayToSource}" Direction="Outgoing" Classes="outgoing"></views:PortView>
+        </Panel>
+      </Grid>
     </Border>
   </Panel>
 </UserControl>

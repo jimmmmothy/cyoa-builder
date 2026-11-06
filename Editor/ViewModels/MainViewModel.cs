@@ -1,4 +1,6 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -53,17 +55,23 @@ public partial class MainViewModel : ViewModelBase
         SetNextCoords();
     }
 
-    public void AddConnection(IConnectionSource start, Point end)
+    public void AddPendingConnection(IConnectionSource start, Point end)
     {
         SelectedConnection = new ConnectionViewModel
         {
             From = start,
             EndPoint = end
         };
+        
+        var existing = Connections.FirstOrDefault(c => c.From == start);
+        if (existing != null)
+        {
+            Connections.Remove(existing); // Overwriting
+        }
         Connections.Add(SelectedConnection);
     }
 
-    public void AddConnection(Point start, IConnectionTarget end)
+    public void AddPendingConnection(Point start, IConnectionTarget end)
     {
         SelectedConnection = new ConnectionViewModel
         {
@@ -73,7 +81,7 @@ public partial class MainViewModel : ViewModelBase
         Connections.Add(SelectedConnection);
     }
 
-    public void AddConnection(Point start, Point end)
+    public void AddPendingConnection(Point start, Point end)
     {
         SelectedConnection = new ConnectionViewModel
         {
@@ -87,5 +95,74 @@ public partial class MainViewModel : ViewModelBase
     {
         if (SelectedConnection is not null)
             Connections.Remove(SelectedConnection);
+    }
+
+    public void FinishConnection(IConnectionSource source)
+    {
+        if (SelectedConnection is null)
+            return;
+        if (ValidateConnection(source))
+            SelectedConnection.From = source;
+        else
+            RemovePendingConnection();
+    }
+
+    public void FinishConnection(IConnectionTarget target)
+    {
+        if (SelectedConnection is null)
+            return;
+        if (ValidateConnection(target))
+            SelectedConnection.To = target;
+        else
+            RemovePendingConnection();
+    }
+
+    private bool ValidateConnection(IConnectionSource source) // Incoming port is known, the outgoing (source) port is being verified
+    {
+        if (SelectedConnection is null || SelectedConnection.To is null)
+            return false;
+
+        var existing = Connections.FirstOrDefault(c => c.From == source);
+        if (existing != null)
+            return false;
+
+        else if (SelectedConnection.To is PageNodeViewModel p && source == p)
+            return false;
+
+        else if (SelectedConnection.To is BranchNodeViewModel b && 
+                 source is ChoiceViewModel s && 
+                 b.Choices.Contains(s))
+            return false;
+
+        else if (SelectedConnection.To is ConditionalBranchNodeViewModel c && 
+                 source is RouteViewModel s2 && 
+                 c.Routes.Contains(s2))
+            return false;
+
+        return true;
+    }
+
+    private bool ValidateConnection(IConnectionTarget target) // Outgoing port is known, the incoming (target) port is being verified
+    {
+        if (SelectedConnection is null || SelectedConnection.From is null)
+            return false;
+
+        else if (SelectedConnection.From is PageNodeViewModel p && target == p)
+            return false;
+
+        else if (SelectedConnection.From is ChoiceViewModel c &&
+                 target is BranchNodeViewModel b && 
+                 b.Choices.Contains(c))
+            return false;
+
+        else if (SelectedConnection.From is ConditionalBranchNodeViewModel cb && target == cb)
+            return false;
+            
+        else if (SelectedConnection.From is RouteViewModel r &&
+                 target is ConditionalBranchNodeViewModel cb2 &&
+                 cb2.Routes.Contains(r))
+            return false;
+
+        return true;
     }
 }

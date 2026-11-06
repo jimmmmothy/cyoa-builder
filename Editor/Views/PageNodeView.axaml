@@ -11,7 +11,7 @@
   <Panel Classes="node">
     <views:PortView Direction="Incoming" Classes="incoming"></views:PortView>
     <views:PortView Direction="Outgoing" Classes="outgoing"></views:PortView>
-    <Border Width="{Binding Width}" Height="{Binding Height}">
+    <Border Classes="node-body" Width="{Binding Width}" Height="{Binding Height}">
       <TextBlock Text="{Binding Title}"></TextBlock>
     </Border>
   </Panel>

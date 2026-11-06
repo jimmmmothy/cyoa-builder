@@ -1,12 +1,9 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using Avalonia.Input;
-using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Editor.Models;
 using Editor.ViewModels;
 
 namespace Editor.Views;
@@ -34,14 +31,14 @@ public partial class MainView : Window
                 {
                     var portVM = args.VM as IConnectionTarget;
                     _latestDirection = PortDirection.Incoming;
-                    mainVM!.AddConnection(args.PointerEvent.GetPosition(Workspace), portVM!);
+                    mainVM!.AddPendingConnection(args.PointerEvent.GetPosition(Workspace), portVM!);
                     break;
                 }
             case PortDirection.Outgoing:
                 {
                     var portVM = args.VM as IConnectionSource;
                     _latestDirection = PortDirection.Outgoing;
-                    mainVM!.AddConnection(portVM!, args.PointerEvent.GetPosition(Workspace));
+                    mainVM!.AddPendingConnection(portVM!, args.PointerEvent.GetPosition(Workspace));
                     break;
                 }
             default:
@@ -77,22 +74,32 @@ public partial class MainView : Window
 
         var mainVM = DataContext as MainViewModel;
         var hit = Workspace.InputHitTest(e.GetPosition(Workspace));
-        var node = (hit as Visual).FindAncestorOfType<NodeViewBase>(includeSelf: true);
-            
-        if (node is null)
-        {
-            mainVM!.RemovePendingConnection();
-            e.Pointer.Capture(null);
-            return;
-        }
-
+        
         switch (_latestDirection)
         {
-            case PortDirection.Incoming:
-                mainVM!.SelectedConnection!.From = (IConnectionSource)node.DataContext!;
+            case PortDirection.Incoming:    // Clicked on an Incoming port, so looking for an IConnectionSource
+                {
+                    var temp = FindAncestorWithContext<IConnectionSource>(hit as Visual);
+
+                    if (temp is not null)
+                    {
+                        mainVM!.FinishConnection((IConnectionSource)temp.DataContext!);
+                    }
+                    else
+                        mainVM!.RemovePendingConnection();
+                }
                 break;
-            case PortDirection.Outgoing:
-                mainVM!.SelectedConnection!.To = (IConnectionTarget)node.DataContext!;
+            case PortDirection.Outgoing:    // Clicked on an Outgoing port, so looking for an IConnectionTarget
+                {
+                    var temp = FindAncestorWithContext<IConnectionTarget>(hit as Visual);
+
+                    if (temp is not null)
+                    {
+                        mainVM!.FinishConnection((IConnectionTarget)temp.DataContext!);
+                    }
+                    else
+                        mainVM!.RemovePendingConnection();
+                }
                 break;
             default:
                 Console.WriteLine("Unknown PortDirection");
@@ -100,5 +107,24 @@ public partial class MainView : Window
         }
 
         e.Pointer.Capture(null);
+    }
+
+    private Visual? FindAncestorWithContext<T>(Visual? element)
+    {
+        bool found = false;
+
+        while (!found && element is not null)
+        {
+            if (element!.DataContext is T)
+            {
+                found = true;
+            }
+            else
+            {
+                element = element.GetVisualParent();
+            }
+        }
+
+        return found ? element : null;
     }
 }

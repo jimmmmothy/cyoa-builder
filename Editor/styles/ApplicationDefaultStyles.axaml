@@ -2,15 +2,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="using:Editor.Views">
   <Design.PreviewWith>
-    <Canvas Width="1000" Height="1000">
-      <Panel Classes="node" Canvas.Left="200" Canvas.Top="100">
+    <Canvas Width="500" Height="500">
+      <Panel Classes="node" Canvas.Left="100" Canvas.Top="20">
         <views:PortView Classes="incoming"></views:PortView>
         <views:PortView Classes="outgoing"></views:PortView>
-        <Border Width="100" Height="100">
+        <Border Width="300" Height="100">
           <TextBlock Text="Page"></TextBlock>
         </Border>
       </Panel>
-      <views:PageNodeView Canvas.Left="100" Canvas.Top="100"></views:PageNodeView>
+      <Panel Classes="node" Canvas.Left="100" Canvas.Top="140">
+        <views:PortView Direction="Incoming" Classes="incoming"></views:PortView>
+        <Border Width="300" MinHeight="100">
+          <Grid RowDefinitions="Auto, *, Auto">
+            <TextBlock Grid.Row="0" Text="Branch"></TextBlock>
+            <ItemsControl Grid.Row="2">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Panel>
+                    <TextBlock>Choice</TextBlock>
+                    <views:PortView x:Name="Port" Direction="Outgoing" Classes="outgoing"></views:PortView>
+                  </Panel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </Border>
+      </Panel>
     </Canvas>
   </Design.PreviewWith>
 
@@ -25,7 +42,7 @@
   </Styles.Resources>
 
   <!-- BORDER NODE -->
-  <Style Selector=".node Border">
+  <Style Selector="Border.node-body">
     <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"></Setter>
     <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackground}"></Setter>
     <Setter Property="BorderThickness" Value="2"></Setter>
@@ -33,12 +50,12 @@
     <Setter Property="CornerRadius" Value="0"></Setter>
   </Style>
 
-  <Style Selector=".selected Border">
+  <Style Selector=".selected Border.node-body">
     <Setter Property="BorderBrush" Value="{DynamicResource AccentColour}"></Setter>
   </Style>
 
   <!-- NODE PORTS -->
-  <Style Selector=".node views|PortView">
+  <Style Selector="views|PortView">
     <Setter Property="Margin" Value="-6"></Setter>
     <Setter Property="VerticalAlignment" Value="Center"></Setter>
     <Setter Property="ZIndex" Value="1"></Setter>
@@ -52,11 +69,11 @@
     <Setter Property="Height" Value="12"></Setter>
   </Style>
 
-  <Style Selector=".incoming Ellipse">
+  <Style Selector="views|PortView.incoming">
     <Setter Property="HorizontalAlignment" Value="Left"></Setter>
   </Style>
 
-  <Style Selector=".outgoing Ellipse">
+  <Style Selector="views|PortView.outgoing">
     <Setter Property="HorizontalAlignment" Value="Right"></Setter>
   </Style>
 

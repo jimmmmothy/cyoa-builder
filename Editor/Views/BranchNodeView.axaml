@@ -10,9 +10,24 @@
              ClipToBounds="False">
 
   <Panel Classes="node">
-    <views:PortView Direction="Incoming" Classes="incoming"></views:PortView>
-    <Border Width="{Binding Width}" Height="{Binding Height}">
-      <TextBlock Text="{Binding Title}"></TextBlock>
+    <views:PortView Direction="Incoming" Anchor="{Binding Incoming, Mode=OneWayToSource}" Classes="incoming"></views:PortView>
+    <Border Classes="node-body" Width="{Binding Width}" MinHeight="{Binding Height}" Padding="0,10">
+      <Grid RowDefinitions="1*, 1*, Auto">
+        <TextBlock Grid.Row="0" Text="{Binding Title}" Margin="10"></TextBlock>
+        <TextBlock Grid.Row="1"></TextBlock>
+        <ItemsControl Grid.Row="2" Padding="0" ClipToBounds="False" ItemsSource="{Binding Choices}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Spacing="5"></StackPanel>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <views:ChoiceView></views:ChoiceView>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Grid>
     </Border>
   </Panel>
 </UserControl>
