@@ -8,9 +8,9 @@
              x:Class="Editor.Views.PageNodeView"
              x:DataType="viewmodels:PageNodeViewModel"
              ClipToBounds="False">
-  <Panel Classes="node">
-    <views:PortView Direction="Incoming" Classes="incoming"></views:PortView>
-    <views:PortView Direction="Outgoing" Classes="outgoing"></views:PortView>
+  <Panel Classes="node" Classes.selected="{Binding IsSelected}">
+    <views:PortView Direction="Incoming" Anchor="{Binding Incoming, Mode=OneWayToSource}" Classes="incoming"></views:PortView>
+    <views:PortView Direction="Outgoing" Anchor="{Binding Outgoing, Mode=OneWayToSource}" Classes="outgoing"></views:PortView>
     <Border Classes="node-body" Width="{Binding Width}" Height="{Binding Height}">
       <TextBlock Text="{Binding Title}"></TextBlock>
     </Border>

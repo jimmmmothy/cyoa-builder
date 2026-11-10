@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewmodels="using:Editor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Editor.Views.ChoicePropertiesView"
+             x:DataType="viewmodels:ChoiceViewModel">
+  <Grid ColumnDefinitions="Auto, *, Auto">
+    <TextBlock Grid.Column="0" Text="{Binding Label}"></TextBlock>
+    
+    <!-- Expanding -->
+    <Label Grid.Column="1"></Label>
+
+    <Button Grid.Column="2" Click="Button_DeleteClick">Delete</Button>
+  </Grid>
+</UserControl>

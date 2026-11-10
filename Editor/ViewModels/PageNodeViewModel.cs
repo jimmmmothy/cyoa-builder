@@ -12,8 +12,8 @@ public partial class PageNodeViewModel : NodeViewModelBase, IConnectionTarget, I
         Content = "Start writing your page...";
     }
 
-    public Point Incoming => new(X, Y + Height / 2.0);
-    public Point Outgoing => new(X + Width, Y + Height / 2.0);
+    [ObservableProperty] public partial Point Incoming { get; set; }
+    [ObservableProperty] public partial Point Outgoing { get; set; }
     [ObservableProperty] public partial string Content { get; set; }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)

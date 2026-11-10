@@ -9,7 +9,7 @@
              x:DataType="viewmodels:BranchNodeViewModel"
              ClipToBounds="False">
 
-  <Panel Classes="node">
+  <Panel Classes="node" Classes.selected="{Binding IsSelected}">
     <views:PortView Direction="Incoming" Anchor="{Binding Incoming, Mode=OneWayToSource}" Classes="incoming"></views:PortView>
     <Border Classes="node-body" Width="{Binding Width}" MinHeight="{Binding Height}" Padding="0,10">
       <Grid RowDefinitions="1*, 1*, Auto">

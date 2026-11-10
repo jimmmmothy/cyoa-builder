@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Editor.ViewModels;
 
 namespace Editor.ViewModels;
@@ -21,4 +22,10 @@ public partial class ConditionalBranchNodeViewModel : NodeViewModelBase, IConnec
     [ObservableProperty] public partial Point Incoming { get; set; }
 
     [ObservableProperty] public partial Point Outgoing { get; set; }
+
+    [RelayCommand]
+    public void AddRoute()
+    {
+        Routes.Add(new RouteViewModel());
+    }
 }

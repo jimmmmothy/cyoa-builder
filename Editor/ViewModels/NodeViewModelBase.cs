@@ -9,6 +9,7 @@ public partial class NodeViewModelBase(double x, double y) : ViewModelBase
     [ObservableProperty] public partial int Width { get; set; } = 300;
     [ObservableProperty] public partial int Height { get; set; } = 100;
     [ObservableProperty] public partial string Title { get; set; }
+    [ObservableProperty] public partial bool IsSelected { get; set; } = false;
     
     public void MoveBy(double dx, double dy)
     {

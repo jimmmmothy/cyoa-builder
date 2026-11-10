@@ -16,9 +16,16 @@ public partial class MainView : Window
         AddHandler(PortView.ConnectionDragStartedEvent, Connection_DragStarted);
         AddHandler(PointerMovedEvent, Connection_DragMoved);
         AddHandler(PointerReleasedEvent, Connection_DragReleased);
+        AddHandler(NodeViewBase.NodeSelectedEvent, Node_Selected);
     }
 
     private PortDirection _latestDirection;
+
+    private void Node_Selected(object? source, NodeViewBase.NodeSelectedEventArgs args)
+    {
+        var mainVM = DataContext as MainViewModel;
+        mainVM!.SelectNode(args.VM);
+    }
 
     private void Connection_DragStarted(object? source, PortView.ConnectionDragStartedArgs args)
     {

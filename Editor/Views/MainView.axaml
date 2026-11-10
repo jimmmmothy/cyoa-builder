@@ -4,6 +4,7 @@
         xmlns:editor="using:Editor"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodels="using:Editor.ViewModels"
+        xmlns:views="using:Editor.Views"
         mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900  "
         x:Class="Editor.Views.MainView"
         x:DataType="viewmodels:MainViewModel"
@@ -24,7 +25,9 @@
         </Border>
 
         <Grid Grid.Row="1" ColumnDefinitions="Auto,2, *">
-            <TabControl Grid.Column="0">
+            
+            <!-- Side bar -->
+            <TabControl Grid.Column="0"> 
                 <TabItem Header="Components">
                     <StackPanel>
                         <Button HorizontalAlignment="Stretch" Command="{Binding SpawnPageNodeCommand}">Page</Button>
@@ -76,9 +79,22 @@
         </Grid>
 
         <GridSplitter Grid.Row="2"></GridSplitter>
-
+        
+        <!-- Properties -->
         <Border Grid.Row="3" Background="{DynamicResource PrimaryBackground}" Opacity="1">
-            <Label>Properties</Label>
+            <ContentControl Content="{Binding SelectedNode}">
+                <ContentControl.DataTemplates>
+                    <DataTemplate DataType="viewmodels:PageNodeViewModel">
+                        <views:PageNodePropertiesView></views:PageNodePropertiesView>
+                    </DataTemplate>
+                    <DataTemplate DataType="viewmodels:BranchNodeViewModel">
+                        <views:BranchNodePropertiesView></views:BranchNodePropertiesView>
+                    </DataTemplate>
+                    <DataTemplate DataType="viewmodels:ConditionalBranchNodeViewModel">
+                        <views:ConditionalBranchNodePropertiesView></views:ConditionalBranchNodePropertiesView>
+                    </DataTemplate>
+                </ContentControl.DataTemplates>
+            </ContentControl>
         </Border>
     </Grid>
 </Window>

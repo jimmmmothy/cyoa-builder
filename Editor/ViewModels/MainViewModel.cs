@@ -18,9 +18,14 @@ public partial class MainViewModel : ViewModelBase
         _y = 10.0;
     }
 
-    [ObservableProperty] public partial ObservableCollection<NodeViewModelBase> Nodes { get; set; } = [];
-    [ObservableProperty] public partial ObservableCollection<ConnectionViewModel> Connections { get; set; } = [];
-    [ObservableProperty] public partial ConnectionViewModel? SelectedConnection { get; private set; }
+    [ObservableProperty] 
+    public partial ObservableCollection<NodeViewModelBase> Nodes { get; set; } = [];
+    [ObservableProperty] 
+    public partial ObservableCollection<ConnectionViewModel> Connections { get; set; } = [];
+    [ObservableProperty] 
+    public partial ConnectionViewModel? SelectedConnection { get; private set; }
+    [ObservableProperty]
+    public partial NodeViewModelBase? SelectedNode { get; set; }
 
     private void SetNextCoords()
     {
@@ -53,6 +58,13 @@ public partial class MainViewModel : ViewModelBase
     {
         Nodes.Add(new ConditionalBranchNodeViewModel(_x, _y));
         SetNextCoords();
+    }
+
+    public void SelectNode(NodeViewModelBase node)
+    {
+        SelectedNode?.IsSelected = false;
+        SelectedNode = node;
+        SelectedNode.IsSelected = true;
     }
 
     public void AddPendingConnection(IConnectionSource start, Point end)

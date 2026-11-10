@@ -39,12 +39,16 @@ public partial class NodeViewBase : UserControl
 
     private void HandleNodeDrag(PointerEventArgs e, PointerFunctionStage stage)
     {
+        if (DataContext is not NodeViewModelBase vm)
+            return;
+
         switch (stage)
         {
             case PointerFunctionStage.Pressed:
-                Classes.Add("selected");
                 e.Pointer.Capture(this);
                 previous = e.GetPosition(this.GetVisualParent());
+                var args = new NodeSelectedEventArgs(NodeSelectedEvent, vm);
+                RaiseEvent(args);
                 break;
             case PointerFunctionStage.Moved:
                 if (e.Pointer.Captured != this)
@@ -52,16 +56,28 @@ public partial class NodeViewBase : UserControl
                 var dx = e.GetPosition(this.GetVisualParent()).X - previous.X;
                 var dy = e.GetPosition(this.GetVisualParent()).Y - previous.Y;
 
-                if (DataContext is NodeViewModelBase vm)
-                {
-                    vm.MoveBy(dx, dy);
-                }
+                vm.MoveBy(dx, dy);
                 break;
             case PointerFunctionStage.Released:
             default:
-                Classes.Remove("selected");
                 e.Pointer.Capture(null);
                 break;
         }
+    }
+
+    public static readonly RoutedEvent<NodeSelectedEventArgs> NodeSelectedEvent = 
+        RoutedEvent.Register<NodeViewBase, NodeSelectedEventArgs>(
+            nameof(NodeSelected), RoutingStrategies.Bubble
+        );
+    
+    public event EventHandler<NodeSelectedEventArgs> NodeSelected
+    {
+        add => AddHandler(NodeSelectedEvent, value);
+        remove => RemoveHandler(NodeSelectedEvent, value);
+    }
+
+    public class NodeSelectedEventArgs(RoutedEvent routedEvent, NodeViewModelBase nodeViewModelBase) : RoutedEventArgs (routedEvent)
+    {
+        public NodeViewModelBase VM { get; } = nodeViewModelBase;
     }
 }
